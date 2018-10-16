@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClassroomExample.Models;
+﻿using ClassroomExample.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ClassroomExample
@@ -26,7 +20,7 @@ namespace ClassroomExample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = @"Server=localhost;Database=ClassroomExample;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"Server=YOUR_DATABASE_SERVER_NAME;Database=NAME_OF_DATABASE;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ClassroomExampleContext>
                 (options => options.UseSqlServer(connection));
 

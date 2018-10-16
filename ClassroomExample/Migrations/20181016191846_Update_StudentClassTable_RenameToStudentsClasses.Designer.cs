@@ -11,9 +11,10 @@ using System;
 namespace ClassroomExample.Migrations
 {
     [DbContext(typeof(ClassroomExampleContext))]
-    partial class ClassroomExampleContextModelSnapshot : ModelSnapshot
+    [Migration("20181016191846_Update_StudentClassTable_RenameToStudentsClasses")]
+    partial class Update_StudentClassTable_RenameToStudentsClasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

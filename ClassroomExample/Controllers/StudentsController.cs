@@ -79,7 +79,7 @@ namespace ClassroomExample.Controllers
         {
             var classesUserIsIn =
                 (from classes in _context.Classes
-                join studentClasses in _context.StudentClass
+                join studentClasses in _context.StudentsClasses
                     on classes.Id equals studentClasses.ClassId
                 select new ClassGetDto
                 {
@@ -107,18 +107,18 @@ namespace ClassroomExample.Controllers
                 Class = @class
             };
 
-            _context.StudentClass.Add(registration);
+            _context.StudentsClasses.Add(registration);
             _context.SaveChanges();
         }
 
         [HttpDelete("{studentId}/Classes/{classId}")]
         public void UnregisterStudentFromClass(int studentId, int classId)
         {
-            var registration = _context.StudentClass
+            var registration = _context.StudentsClasses
                 .Single(x => x.StudentId == studentId
                           && x.ClassId == classId);
 
-            _context.StudentClass.Remove(registration);
+            _context.StudentsClasses.Remove(registration);
             _context.SaveChanges();
         }
     }

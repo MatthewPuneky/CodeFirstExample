@@ -14,7 +14,7 @@ namespace ClassroomExample.Models
         public DbSet<Student> Students { get; set; }
         public DbSet<Class> Classes { get; set; }
 
-        public DbSet<StudentClass> StudentClass { get; set; }
+        public DbSet<StudentClass> StudentsClasses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
