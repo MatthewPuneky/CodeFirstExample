@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ClassroomExample.Models
+namespace Cmps285EntityFrameworkExample.Entities
 {
-    public class ClassroomExampleContext : DbContext
+    public class DataContext : DbContext
     {
-        public ClassroomExampleContext(DbContextOptions<ClassroomExampleContext> options)
+        public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {
-
         }
 
         public DbSet<Teacher> Teachers { get; set; }
@@ -22,9 +21,9 @@ namespace ClassroomExample.Models
                 .HasOne(x => x.Teacher)
                 .WithMany(x => x.Classes)
                 .HasForeignKey(x => x.TeacherId);
-            
+
             modelBuilder.Entity<StudentClass>()
-                .HasKey(x => new {x.StudentId, x.ClassId});
+                .HasKey(x => new { x.StudentId, x.ClassId });
 
             modelBuilder.Entity<StudentClass>()
                 .HasOne(x => x.Student)
@@ -38,3 +37,4 @@ namespace ClassroomExample.Models
         }
     }
 }
+

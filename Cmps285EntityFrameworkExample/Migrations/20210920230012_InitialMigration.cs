@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ClassroomExample.Migrations
+namespace Cmps285EntityFrameworkExample.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +11,9 @@ namespace ClassroomExample.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,9 +25,9 @@ namespace ClassroomExample.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OfficeLocation = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -43,9 +40,9 @@ namespace ClassroomExample.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Section = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Section = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TeacherId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -60,7 +57,7 @@ namespace ClassroomExample.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentClass",
+                name: "StudentsClasses",
                 columns: table => new
                 {
                     StudentId = table.Column<int>(type: "int", nullable: false),
@@ -68,15 +65,15 @@ namespace ClassroomExample.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentClass", x => new { x.StudentId, x.ClassId });
+                    table.PrimaryKey("PK_StudentsClasses", x => new { x.StudentId, x.ClassId });
                     table.ForeignKey(
-                        name: "FK_StudentClass_Classes_ClassId",
+                        name: "FK_StudentsClasses_Classes_ClassId",
                         column: x => x.ClassId,
                         principalTable: "Classes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentClass_Students_StudentId",
+                        name: "FK_StudentsClasses_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
@@ -89,15 +86,15 @@ namespace ClassroomExample.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentClass_ClassId",
-                table: "StudentClass",
+                name: "IX_StudentsClasses_ClassId",
+                table: "StudentsClasses",
                 column: "ClassId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "StudentClass");
+                name: "StudentsClasses");
 
             migrationBuilder.DropTable(
                 name: "Classes");

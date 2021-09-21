@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ClassroomExample.Models;
+using Cmps285EntityFrameworkExample.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClassroomExample.Controllers
+namespace Cmps285EntityFrameworkExample.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/classes")]
     public class ClassesController : Controller
     {
-        private readonly ClassroomExampleContext _context;
+        private readonly DataContext _context;
 
-        public ClassesController(ClassroomExampleContext context)
+        public ClassesController(DataContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public IEnumerable<ClassGetDto> Get()
+        public ActionResult<IEnumerable<ClassGetDto>> Get()
         {
-            return _context.Classes
+            var classesToReturn = _context.Classes
                 .Select(x => new ClassGetDto
                 {
                     Id = x.Id,
@@ -27,12 +27,14 @@ namespace ClassroomExample.Controllers
                     TeacherId = x.TeacherId
                 })
                 .ToList();
+
+            return Ok(classesToReturn);
         }
-        
+
         [HttpGet("{classId}")]
-        public ClassGetDto Get(int classId)
+        public ActionResult<ClassGetDto> Get(int classId)
         {
-            return _context.Classes
+            var classToReturn = _context.Classes
                 .Select(x => new ClassGetDto
                 {
                     Id = x.Id,
@@ -40,10 +42,12 @@ namespace ClassroomExample.Controllers
                     Section = x.Section,
                     TeacherId = x.TeacherId
                 }).First(x => x.Id == classId);
+
+            return Ok(classToReturn);
         }
-        
+
         [HttpPost]
-        public int Post([FromBody]ClassPostDto classDto)
+        public ActionResult<ClassGetDto> Post([FromBody] ClassPostDto classDto)
         {
             var classToCreate = new Class
             {
@@ -52,15 +56,23 @@ namespace ClassroomExample.Controllers
                 TeacherId = classDto.TeacherId
             };
 
-            var createdClass = _context.Classes.Add(classToCreate);
+            _context.Classes.Add(classToCreate);
 
             _context.SaveChanges();
 
-            return createdClass.Entity.Id;
+            var classToReturn = new ClassGetDto
+            {
+                Id = classToCreate.Id,
+                Name = classToCreate.Name,
+                TeacherId = classToCreate.TeacherId,
+                Section = classToCreate.Section,
+            };
+
+            return Ok(classToReturn);
         }
-        
+
         [HttpPut("{classId}")]
-        public void Put(int classId, [FromBody]ClassPutDto classDto)
+        public ActionResult<ClassGetDto> Put(int classId, [FromBody] ClassPutDto classDto)
         {
             var classToEdit = _context.Classes.Find(classId);
 
@@ -69,13 +81,25 @@ namespace ClassroomExample.Controllers
             classToEdit.TeacherId = classDto.TeacherId;
 
             _context.SaveChanges();
+
+            var classToReturn = new ClassGetDto
+            {
+                Id = classToEdit.Id,
+                Name = classToEdit.Name,
+                TeacherId = classToEdit.TeacherId,
+                Section = classToEdit.Section,
+            };
+
+            return Ok(classToReturn);
         }
 
         [HttpDelete("{classId}")]
-        public void Delete(int classId)
+        public ActionResult Delete(int classId)
         {
             var classToRemove = _context.Classes.Find(classId);
             _context.Classes.Remove(classToRemove);
+
+            Ok();
         }
     }
 }

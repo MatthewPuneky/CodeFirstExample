@@ -1,12 +1,12 @@
-﻿using ClassroomExample.Models;
+using Cmps285EntityFrameworkExample.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Hosting;
 
-namespace ClassroomExample
+namespace Cmps285EntityFrameworkExample
 {
     public class Startup
     {
@@ -20,37 +20,41 @@ namespace ClassroomExample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = @"Server=YOUR_DATABASE_SERVER_NAME;Database=NAME_OF_DATABASE;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<ClassroomExampleContext>
-                (options => options.UseSqlServer(connection));
+            var connection = @"Server=YOUR_SERVER_NAME;database=NAME_OF_DATABASE;Trusted_Connection=True;ConnectRetryCount=0";
 
-            //services.AddDbContext<ClassroomExampleContext>(opt =>
-            //    opt.UseInMemoryDatabase("ClassroomExampleInMemoryDb"));
+            services.AddDbContext<DataContext>(
+                options => options.UseSqlServer(connection));
 
-            services.AddMvc();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-            });
+            services.AddControllers();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
             app.UseSwagger();
+
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "285 Entity Framework Example");
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

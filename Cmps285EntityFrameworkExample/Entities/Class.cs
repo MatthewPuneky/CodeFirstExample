@@ -1,22 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace ClassroomExample.Models
+namespace Cmps285EntityFrameworkExample.Entities
 {
     public class Class
     {
         public int Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Section { get; set; }
-        
+
         public int? TeacherId { get; set; }
         public Teacher Teacher { get; set; }
 
-        public List<StudentClass> StudentClasses { get; set; }
+        public virtual List<StudentClass> StudentClasses { get; set; }
+            = new List<StudentClass>();
     }
 
     public class ClassPostDto

@@ -1,37 +1,36 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace ClassroomExample.Models
+namespace Cmps285EntityFrameworkExample.Entities
 {
-    public class Student
-    {
-        public int Id { get; set; }
-
-        [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        public List<StudentClass> StudentClasses { get; set; }
-    }
-
-    public class StudentPostDto
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
-
-    public class StudentPutDto
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
-
-    public class StudentGetDto
+    public class Teacher
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string OfficeLocation { get; set; }
+
+        public virtual List<Class> Classes { get; set; } = new List<Class>();
+    }
+
+    public class TeacherPostDto
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string OfficeLocation { get; set; }
+    }
+
+    public class TeacherPutDto
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string OfficeLocation { get; set; }
+    }
+
+    public class TeacherGetDto
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string OfficeLocation { get; set; }
     }
 }

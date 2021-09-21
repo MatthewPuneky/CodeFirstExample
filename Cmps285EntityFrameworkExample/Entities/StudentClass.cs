@@ -1,4 +1,4 @@
-﻿namespace ClassroomExample.Models
+﻿namespace Cmps285EntityFrameworkExample.Entities
 {
     public class StudentClass
     {
@@ -9,3 +9,4 @@
         public Class Class { get; set; }
     }
 }
+
